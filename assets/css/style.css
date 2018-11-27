@@ -1,0 +1,27 @@
+#train-table th,
+td {
+  display: inline-block;
+  width: 16.575%;
+}
+
+body  {
+  background: url(../images/trainbackground.jpg);
+}
+
+.card {
+  opacity: .95;
+}
+
+.jumbotron {
+  opacity: .95;
+  max-height: 200px;
+  margin-top: 10px;
+}
+
+.top-form {
+  margin-bottom: 20px;
+}
+
+.btn {
+  margin-bottom: 20px;
+}
