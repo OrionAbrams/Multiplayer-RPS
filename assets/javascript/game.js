@@ -49,16 +49,20 @@ scoreRef.on('value', function(snapshot) {
   p1Text.text(snapshot.val().pOneScore)
   p2Text.text(snapshot.val().pTwoScore)
 });
-var playerOne = null
-var playerTwo = null
-playerRef.set({
-  playerOne: null,
-  playerOneId: null,
-  playerTwo: null,
-  playerTwoId: null,
-  turnOne: true,
-});
 
+function setStart(){
+  p1Score = 0
+  p2Score = 0
+  gameReady = false
+  turn2 = false
+  playerRef.set({
+    playerOne: null,
+    playerOneId: null,
+    playerTwo: null,
+    playerTwoId: null,
+    turnOne: true,
+  });
+}
 
 function resetChoices() {
   choicesRef.set({
@@ -66,7 +70,6 @@ function resetChoices() {
     playerTwoChoice: null
   })
 }
-resetChoices()
 
 var isPlayerOne
 var isPlayerTwo
@@ -84,12 +87,17 @@ connectedRef.on("value", function(snap) {
   }
 });
 connectionsRef.on("value", function(snap) {
+  console.log(Object.keys(snap.val())[0])
   // console.log(snap.val())
   // playerRef.update({
   //   connections : snap.val()
   // })
-  console.log(connectionsRef.length)
+  // console.log(connectionsRef.length)
   $("#connected-viewers").text(snap.numChildren());
+  if (snap.numChildren() < 2){
+    setStart()
+  console.log ("less than 2 players")
+  }
 });
 
 //tried to add this userid stuff and failed
