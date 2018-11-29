@@ -29,7 +29,21 @@ restart()
 var database = firebase.database();
 var playerRef = database.ref("players")
 var choicesRef = database.ref("choices")
+var scoreRef = database.ref("score")
 
+function scoreSet(){
+scoreRef.set({
+  pOneScore : p1Score,
+  pTwoScore : p2Score
+});
+}
+scoreSet();
+scoreRef.on('value', function(snapshot) {
+  p1Text.text(snapshot.val().pOneScore)
+  p2Text.text(snapshot.val().pTwoScore)
+});
+var playerOne = null
+var playerTwo = null
 playerRef.set({
   playerOne: null,
   playerTwo: null,
@@ -50,7 +64,33 @@ resetChoices()
 var isPlayerOne
 var isPlayerTwo
 
+//connections stuff
+var connectionsRef = database.ref("/connections");
 
+// '.info/connected' is a special location provided by Firebase that is updated
+// every time the client's connection state changes.
+// '.info/connected' is a boolean value, true if the client is connected and false if they are not.
+var connectedRef = database.ref(".info/connected");
+
+// When the client's connection state changes...
+connectedRef.on("value", function(snap) {
+
+  // If they are connected..
+  if (snap.val()) {
+
+    // Add user to the connections list.
+    var con = connectionsRef.push(true);
+    // Remove user from the connection list when they disconnect.
+    con.onDisconnect().remove();
+  }
+});
+
+// When first loaded or when the connections list changes...
+connectionsRef.on("value", function(snap) {
+
+  // Display the viewer count in the html.
+  $("#connected-viewers").text(snap.numChildren());
+});
 // var playerOne
 // get player one from database, 
 playerRef.on("value", function (snap) {
@@ -96,6 +136,9 @@ playerRef.on("value", function (snap) {
 // function playerAdd() {
 $("#add-user-btn").on("click", function (event) {
   event.preventDefault();
+  if ($("#name-input").val().trim() === ""){
+    return
+  }
 
   var name = $("#name-input").val().trim();
   playerRef.once('value').then(function (snapshot) {
@@ -108,6 +151,8 @@ $("#add-user-btn").on("click", function (event) {
       console.log(snapshot.val())
     }
     //if no player one but player two, set entered name as player one
+    
+    // if current user set the last name, can't enter a new name --how to do this?
     else if (!snapshot.child("playerOne").exists() && snapshot.child("playerTwo").exists()) {
       playerRef.update({
         playerOne: name
@@ -124,6 +169,7 @@ $("#add-user-btn").on("click", function (event) {
       alert("game full!")
     }
   })
+  $("#name-input").val("")
 });
 
 //get snapshot on any value change to check if player 1 or 2 exist to put them on screen as text
@@ -153,7 +199,12 @@ playerRef.on("value", function (childSnapshot) {
 
 });
 
+// scoreRef.on("value", function (snap){
+//   console.log(snap.val())
+//   console.log(this)
+//   scoreSet()
 
+// })
 
 // and other  changes to player choices
 choicesRef.on("value", function (childSnapshot) {
@@ -171,14 +222,16 @@ choicesRef.on("value", function (childSnapshot) {
 
     if (p1choseRock && p2chosePaper) {
       p2Score++
-      p2Text.text(p2Score)
+      // p2Text.text(p2Score)
       roundWinner.text("Player 2 wins!")
+      scoreSet()
       resetChoices()
     }
     if (p1choseRock && p2choseScissors) {
       p1Score++
-      p1Text.text(p1Score)
+      // p1Text.text(p1Score)
       roundWinner.text("Player 1 wins!")
+      scoreSet()
       resetChoices()
     }
     if (p1choseRock && p2choseRock) {
@@ -187,8 +240,9 @@ choicesRef.on("value", function (childSnapshot) {
     }
     if (p1chosePaper && p2choseRock) {
       p1Score++
-      p1Text.text(p1Score)
+      // p1Text.text(p1Score)
       roundWinner.text("Player 1 wins")
+      scoreSet()
       resetChoices()
     }
     if (p1chosePaper && p2chosePaper) {
@@ -197,8 +251,9 @@ choicesRef.on("value", function (childSnapshot) {
     }
     if (p1chosePaper && p2choseScissors) {
       p2Score++
-      p2Text.text(p2Score)
+      // p2Text.text(p2Score)
       roundWinner.text("Player 2 wins!")
+      scoreSet()
       resetChoices()
     }
     if (p1choseScissors && p2choseScissors) {
@@ -207,14 +262,16 @@ choicesRef.on("value", function (childSnapshot) {
     }
     if (p1choseScissors && p2chosePaper) {
       p1Score++
-      p1Text.text(p1Score)
+      // p1Text.text(p1Score)
       roundWinner.text("Player 1 Wins!")
+      scoreSet()
       resetChoices()
     }
     if (p1choseScissors && p2choseRock) {
       p2Score++
-      p2Text.text(p2Score)
+      // p2Text.text(p2Score)
       roundWinner.text("Player 2 wins!")
+      scoreSet()
       resetChoices()
     }
 
