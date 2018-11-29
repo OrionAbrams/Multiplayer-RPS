@@ -8,30 +8,23 @@ var config = {
 };
 firebase.initializeApp(config);
 
-$("#reset").on("click", function (){
-  restart();
-  scoreSet();
-})
-
 var playerOneTurnText = $("#player-1-turn");
 var playerTwoTurnText = $("#player-2-turn");
 var roundWinner = $("#results");
-var p1Score
-var p2Score
-var turn2
-var gameReady
+var p1Score = 0
+var p2Score = 0
+var turn2 = false
+var gameReady = false
 var p1Text = $(".p1-score")
 var p2Text = $(".p2-score")
 p1Text.text(p1Score)
 p2Text.text(p2Score)
 
 function restart() {
-  p1Score = 0
-  p2Score = 0
-  gameReady = false
-  turn2 = false
+  playerOneTurnText.text("Your Turn")
 }
 
+restart()
 
 var database = firebase.database();
 var playerRef = database.ref("players")
@@ -44,19 +37,25 @@ scoreRef.set({
   pTwoScore : p2Score
 });
 }
-
-scoreRef.on('value', function(snapshot) {
-  p1Text.text(snapshot.val().pOneScore)
-  p2Text.text(snapshot.val().pTwoScore)
-});
+scoreSet();
+// scoreRef.on('value', function(snapshot) {
+//   p1Text.text(snapshot.val().pOneScore)
+//   p2Text.text(snapshot.val().pTwoScore)
+// });
 var playerOne = null
 var playerTwo = null
-playerRef.set({
-  playerOne: null,
+
+database.ref().set({
   playerOneId: null,
-  playerTwo: null,
   playerTwoId: null,
-  turnOne: true,
+  playerOne: null,
+  playerTwo: null,
+
+  turnOne: true
+})
+playerRef.set({
+  
+ 
 });
 
 
@@ -75,34 +74,20 @@ var isPlayerTwo
 var connectionsRef = database.ref("/connections");
 var connectedRef = database.ref(".info/connected");
 connectedRef.on("value", function(snap) {
-
   if (snap.val()) {
-    // console.log((Object.keys(snap.val())));
     var con = connectionsRef.push(true);
-    // playerRef.connections.push(snap.val())
+    // console.log(con)
     con.onDisconnect().remove();
   }
 });
 connectionsRef.on("value", function(snap) {
-  // console.log(snap.val())
-  // playerRef.update({
-  //   connections : snap.val()
-  // })
-  console.log(connectionsRef.length)
+//  console.log(snap.ref.parent)
   $("#connected-viewers").text(snap.numChildren());
+  // console.log(snap.numChildren())
 });
 
-//tried to add this userid stuff and failed
-              //Get the current userID
-              // var userId = firebase.auth().currentUser.uid;
-              //Get the user data
-              // firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
-                  //Do something with your user data located in snapshot
-                  // console.log(snapshot)
-              // });
-
 // get player one from database, 
-playerRef.on("value", function (snap) {
+database.ref().on("value", function (snap) {
   console.log(snap.val())
   // if player one not there
   if (!snap.val()) {
@@ -142,39 +127,34 @@ $("#add-user-btn").on("click", function (event) {
   if ($("#name-input").val().trim() === ""){
     return
   }
-  
-  var name = $("#name-input").val().trim();
-  playerRef.once('value').then(function (snapshot) {
 
-    //this was to try to take user string and set that user as player 1 or 2, but overthinking it maybe i just need
-    //to only let user click one image until the next player has chosen an image, then click again
-// var objectKeyZero = Object.keys(snapshot.child("/connections").val())[0]
-// var objectKeyOne = Object.keys(snapshot.child("/connections").val())[1]
+
+  var name = $("#name-input").val().trim();
+  database.ref().once('value').then(function (snapshot) {
+    var objectKeyZero = Object.keys(snapshot.child("/connections").val())[0]
+    var objectKeyOne = Object.keys(snapshot.child("/connections").val())[1]
     //if no player one or player two, set entered name as player one
     if (!snapshot.child("playerOne").exists() && !snapshot.child("playerTwo").exists()) {
-      restart();
-      playerRef.update({
+      database.ref().update({
         playerOne: name,
-        // playerOneId: objectKeyZero
+        playerOneId: objectKeyZero
       });
-      // console.log(Object.keys(snapshot.child("/connections").val())[0])
-      // console.log(snapshot.val())
+      console.log(Object.keys(snapshot.child("/connections").val())[0])
+      console.log(snapshot.val())
     }
     //if no player one but player two, set entered name as player one
     // if current user set the last name, can't enter a new name or click on other player's side--how to do this?
     else if (!snapshot.child("playerOne").exists() && snapshot.child("playerTwo").exists()) {
-      restart();
-      playerRef.update({
+      database.ref().update({
         playerOne: name,
-        // playerOneId: objectKeyZero
+        playerOneId: objectKeyZero
       });
     }
     // if player one but no player two, set entered name as player two
     else if (snapshot.child("playerOne").exists() && !snapshot.child("playerTwo").exists()) {
-      restart();
-      playerRef.update({
+      database.ref().update({
         playerTwo: name,
-        // playerTwoId: objectKeyOne
+        playerTwoId: objectKeyOne
       });
     }
     // if player one and player two occupied and another user tries to join, alert game is full
@@ -187,7 +167,7 @@ $("#add-user-btn").on("click", function (event) {
 
 //get snapshot on any value change to check if player 1 or 2 exist to put them on screen as text
 
-playerRef.on("value", function (childSnapshot) {
+database.ref().on("value", function (childSnapshot) {
 
   // console.log(childSnapshot.val().playerOne);
   if (childSnapshot.child("playerOne").exists()) {
@@ -203,15 +183,11 @@ playerRef.on("value", function (childSnapshot) {
   console.log(childSnapshot.val().turnOne)
   if (childSnapshot.val().turnOne === true) {
     turn2 = false
-    playerTwoTurnText.text("");
-    playerOneTurnText.text("Your Turn");
   }
 
   // console.log(snapshot.val().turnOne)
   if (childSnapshot.val().turnOne === false) {
     turn2 = true
-    playerOneTurnText.text("");
-    playerTwoTurnText.text("Your Turn");
   }
 
 });
@@ -286,17 +262,18 @@ choicesRef.on("value", function (childSnapshot) {
 });
 
 $(".image1").on("click", function () {
- 
+  
   if (!gameReady) {
     return
   }
-
   if (turn2) {
     return
   }
 
   else {
  
+    playerOneTurnText.text("");
+    playerTwoTurnText.text("Your Turn");
     if (this.id === "player-1-rock") {
       choicesRef.update({
         playerOneChoice: "rock"
@@ -315,30 +292,27 @@ $(".image1").on("click", function () {
         playerOneChoice: "scissors"
       })
     }
-    playerRef.update({
+    database.ref().update({
       turnOne : false
     })
   }
-  $(".image2").hide()
 })
 
 
 $(".image2").on("click", function () {
-  
   if (!gameReady) {
     return
   }
-
-
   if (!turn2){
     return
   }
-  
   else {
-    playerRef.update({
+    database.ref().update({
       turnOne : true
     })
-  
+    playerTwoTurnText.text("");
+    playerOneTurnText.text("Your Turn");
+
     if (this.id === "player-2-rock") {
       console.log("player 2 chose rock")
       choicesRef.update({
@@ -357,11 +331,10 @@ $(".image2").on("click", function () {
         playerTwoChoice: "scissors"
       })
     }
-    playerRef.update({
+    database.ref().update({
       turnOne : true
     })
   }
-  $(".image1").hide()
 })
 
 // didn't use below error console:

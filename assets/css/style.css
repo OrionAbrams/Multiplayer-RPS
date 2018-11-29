@@ -25,3 +25,11 @@ body  {
 .btn {
   margin-bottom: 20px;
 }
+
+.scores {
+  text-align: center;
+}
+
+.active-player {
+  font-weight: bolder;
+}
