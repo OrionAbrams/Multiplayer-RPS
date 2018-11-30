@@ -11,8 +11,8 @@ $("#reset").on("click", function () {
   setStart();
   scoreSet();
 })
-var player1 = false
-var player2 = false
+var player1
+var player2
 var playerOneTurnText = $("#player-1-turn");
 var playerTwoTurnText = $("#player-2-turn");
 var roundWinner = $("#results");
@@ -38,11 +38,18 @@ scoreRef.on('value', function (snapshot) {
   p1Text.text(snapshot.val().pOneScore)
   p2Text.text(snapshot.val().pTwoScore)
 });
+
+function resetPlayers(){
+  player1 = false
+  player2 = false
+}
+resetPlayers();
 function restart() {
   p1Score = 0
   p2Score = 0
   gameReady = false
   turn2 = false
+
 }
 function setStart() {
   restart();
@@ -69,6 +76,7 @@ connectedRef.on("value", function (snap) {
   if (snap.val()) {
     var con = connectionsRef.push(true);
     con.onDisconnect().remove();
+    
   }
 });
 connectionsRef.on("value", function (snap) {
@@ -237,8 +245,10 @@ $(".image1").on("click", function () {
   if (turn2) {
     return
   }
-    // if not player 1
-    // return
+  console.log(player1)
+  if (!player1){
+    return
+  }
   else {
 
     if (this.id === "player-1-rock") {
@@ -260,7 +270,6 @@ $(".image1").on("click", function () {
       turnOne: false
     })
   }
-  $(".image2").hide()
 })
 $(".image2").on("click", function () {
 
@@ -270,13 +279,15 @@ $(".image2").on("click", function () {
   if (!turn2) {
     return
   }
-  // if not player 2
-  // return
+  console.log(player2)
+  if (!player2){
+    return
+  }
 
   else {
-    playerRef.update({
-      turnOne: true
-    })
+    // playerRef.update({
+    //   turnOne: true
+    // })
 
     if (this.id === "player-2-rock") {
       choicesRef.update({
@@ -297,7 +308,6 @@ $(".image2").on("click", function () {
       turnOne: true
     })
   }
-  $(".image1").hide()
 })
  // didn't use below error console:
  //show any errors in console
