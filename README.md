@@ -1,8 +1,7 @@
 # Multiplayer-RPS
 Rock Paper Scissors multiplayer using firebase
 
-* Found a cheesy way to get this to work, by hiding the options for the opposite player.
-* Works as long as both players who want to play load the page before entering the two names... ran out of time to try and fix this before deadline--also the score doesn't reset automatically now (added a button) because didn't want every user visiting page resetting the score.
+* Most everything works except for a user disconnecting clearing the names
 
 Instructions:
 
