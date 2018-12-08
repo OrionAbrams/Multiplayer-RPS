@@ -55,9 +55,7 @@ function setStart() {
   restart()
   playerRef.set({
     playerOne: null,
-    playerOneId: null,
     playerTwo: null,
-    playerTwoId: null,
     turnOne: true,
   })
   $("#player-1-name").empty()
@@ -125,7 +123,6 @@ $("#add-user-btn").on("click", function (event) {
       restart()
       playerRef.update({
         playerOne: name,
-        playerOneId: true
       })
     }
    
@@ -134,7 +131,6 @@ $("#add-user-btn").on("click", function (event) {
       restart()
       playerRef.update({
         playerOne: name,
-        playerOneId: true
       })
     }
     // if player one but no player two, set entered name as player two
@@ -143,7 +139,6 @@ $("#add-user-btn").on("click", function (event) {
       restart()
       playerRef.update({
         playerTwo: name,
-        playerTwoId: true
       })
     }
     // if player one and player two occupied and another user tries to join, alert game is full
