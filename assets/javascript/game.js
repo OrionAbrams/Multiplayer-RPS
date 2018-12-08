@@ -60,6 +60,9 @@ function setStart() {
     playerTwoId: null,
     turnOne: true,
   });
+  $("#player-1-name").empty()
+  $("#player-2-name").empty()
+  roundWinner.text("")
 }
 function resetChoices() {
   choicesRef.set({
@@ -83,6 +86,7 @@ connectionsRef.on("value", function (snap) {
   $("#connected-viewers").text(snap.numChildren());
   if (snap.numChildren() < 2) {
     setStart()
+    scoreSet()
   }
 });
 
@@ -202,7 +206,7 @@ choicesRef.on("value", function (childSnapshot) {
     }
     if (p1chosePaper && p2choseRock) {
       p1Score++
-      roundWinner.text("Player 1 wins")
+      roundWinner.text("Player 1 wins!")
       scoreSet()
       resetChoices()
     }
@@ -222,7 +226,7 @@ choicesRef.on("value", function (childSnapshot) {
     }
     if (p1choseScissors && p2chosePaper) {
       p1Score++
-      roundWinner.text("Player 1 Wins!")
+      roundWinner.text("Player 1 wins!")
       scoreSet()
       resetChoices()
     }

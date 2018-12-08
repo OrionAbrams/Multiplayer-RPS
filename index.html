@@ -38,7 +38,7 @@
     <div class="row">
       <div class="col-md-4">
         <div class="card mb-4">
-          <div class="card-header">Player 1:<div id="player-1-name"></div>
+          <div class="card-header">Player 1: &nbsp;<div id="player-1-name" class="d-inline"></div>
             <div id="player-1-turn" class="active-player"></div>
           </div>
           <div class="card-body">
@@ -51,19 +51,19 @@
       <div class="col-md-4">
         <div class="card mb-4">
           <div class="card-header scores">WHO WON?</div>
-            <div class="scores">Player 1 score:
-              <div class="p1-score"></div>Player 2 score:
-              <div class="p2-score"></div>
+          <div class="scores">Player 1 score:
+            <div class="p1-score"></div>Player 2 score:
+            <div class="p2-score"></div>
 
-            </div>
-          
+          </div>
+
           <div id="results" class="card-body">
           </div>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card mb-4">
-          <div class="card-header">Player 2:<div id="player-2-name"></div>
+          <div class="card-header">Player 2: &nbsp;<div id="player-2-name" class="d-inline"></div>
             <div id="player-2-turn" class="active-player"></div>
           </div>
           <div class="card-body">
@@ -76,18 +76,19 @@
     </div>
     <div class="row">
       <div class="col-md-4"></div>
-      
+
       <div class="col-md-4 bottom">
         <div class="card mb-4">
-          <div class="card-header">Connected Viewers</div>
+          <div class="card-header">Connected Viewers: &nbsp; <div id="connected-viewers" class="d-inline"></div>
+          </div>
           <div class="card-body">
-            <div id="connected-viewers"></div><button id="reset" class="btn btn-block btn-danger">Reset?</button>
+            <button id="reset" class="btn btn-block btn-danger">Reset Game?</button>
           </div>
         </div>
-        </div>
-        <div class="col-md-4"></div>
+      </div>
+      <div class="col-md-4"></div>
 
-        <script src="assets/javascript/game.js"></script>
+      <script src="assets/javascript/game.js"></script>
 
 </body>
 

@@ -33,3 +33,11 @@ body  {
 .active-player {
   font-weight: bolder;
 }
+
+#player-1-turn{
+  font-size: large
+}
+
+#player-2-turn{
+  font-size: large
+}
