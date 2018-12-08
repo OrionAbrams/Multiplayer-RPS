@@ -127,8 +127,6 @@ $("#add-user-btn").on("click", function (event) {
         playerOne: name,
         playerOneId: true
       })
-      // console.log(Object.keys(snapshot.child("/connections").val())[0])
-      // console.log(snapshot.val())
     }
    
     else if (!snapshot.child("playerOne").exists() && snapshot.child("playerTwo").exists()) {
