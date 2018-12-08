@@ -5,17 +5,17 @@ var config = {
   projectId: "multiplayer-rps-fe0b9",
   storageBucket: "",
   messagingSenderId: "352874551588"
-};
-firebase.initializeApp(config);
+}
+firebase.initializeApp(config)
 $("#reset").on("click", function () {
-  setStart();
-  scoreSet();
+  setStart()
+  scoreSet()
 })
 var player1
 var player2
-var playerOneTurnText = $("#player-1-turn");
-var playerTwoTurnText = $("#player-2-turn");
-var roundWinner = $("#results");
+var playerOneTurnText = $("#player-1-turn")
+var playerTwoTurnText = $("#player-2-turn")
+var roundWinner = $("#results")
 var p1Score
 var p2Score
 var turn2
@@ -24,7 +24,7 @@ var p1Text = $(".p1-score")
 var p2Text = $(".p2-score")
 p1Text.text(p1Score)
 p2Text.text(p2Score)
-var database = firebase.database();
+var database = firebase.database()
 var playerRef = database.ref("players")
 var choicesRef = database.ref("choices")
 var scoreRef = database.ref("score")
@@ -32,18 +32,18 @@ function scoreSet() {
   scoreRef.set({
     pOneScore: p1Score,
     pTwoScore: p2Score
-  });
+  })
 }
 scoreRef.on('value', function (snapshot) {
   p1Text.text(snapshot.val().pOneScore)
   p2Text.text(snapshot.val().pTwoScore)
-});
+})
 
 function resetPlayers(){
   player1 = false
   player2 = false
 }
-resetPlayers();
+resetPlayers()
 function restart() {
   p1Score = 0
   p2Score = 0
@@ -52,14 +52,14 @@ function restart() {
 
 }
 function setStart() {
-  restart();
+  restart()
   playerRef.set({
     playerOne: null,
     playerOneId: null,
     playerTwo: null,
     playerTwoId: null,
     turnOne: true,
-  });
+  })
   $("#player-1-name").empty()
   $("#player-2-name").empty()
   roundWinner.text("")
@@ -73,22 +73,22 @@ function resetChoices() {
 var isPlayerOne
 var isPlayerTwo
 //connections stuff
-var connectionsRef = database.ref("/connections");
-var connectedRef = database.ref(".info/connected");
+var connectionsRef = database.ref("/connections")
+var connectedRef = database.ref(".info/connected")
 connectedRef.on("value", function (snap) {
   if (snap.val()) {
-    var con = connectionsRef.push(true);
-    con.onDisconnect().remove();
+    var con = connectionsRef.push(true)
+    con.onDisconnect().remove()
     
   }
-});
+})
 connectionsRef.on("value", function (snap) {
-  $("#connected-viewers").text(snap.numChildren());
+  $("#connected-viewers").text(snap.numChildren())
   if (snap.numChildren() < 2) {
     setStart()
     scoreSet()
   }
-});
+})
 
 playerRef.on("value", function (snap) {
   // if player one not there
@@ -108,45 +108,45 @@ playerRef.on("value", function (snap) {
       gameReady = true
     }
   }
-});
+})
 
 $("#add-user-btn").on("click", function (event) {
-  event.preventDefault();
+  event.preventDefault()
 
   if ($("#name-input").val().trim() === "") {
     return
   }
 
-  var name = $("#name-input").val().trim();
+  var name = $("#name-input").val().trim()
   playerRef.once('value').then(function (snapshot) {
 
     if (!snapshot.child("playerOne").exists() && !snapshot.child("playerTwo").exists()) {
       player1 = true
-      restart();
+      restart()
       playerRef.update({
         playerOne: name,
         playerOneId: true
-      });
+      })
       // console.log(Object.keys(snapshot.child("/connections").val())[0])
       // console.log(snapshot.val())
     }
    
     else if (!snapshot.child("playerOne").exists() && snapshot.child("playerTwo").exists()) {
       player1 = true
-      restart();
+      restart()
       playerRef.update({
         playerOne: name,
         playerOneId: true
-      });
+      })
     }
     // if player one but no player two, set entered name as player two
     else if (snapshot.child("playerOne").exists() && !snapshot.child("playerTwo").exists()) {
       player2 = true
-      restart();
+      restart()
       playerRef.update({
         playerTwo: name,
         playerTwoId: true
-      });
+      })
     }
     // if player one and player two occupied and another user tries to join, alert game is full
     else {
@@ -154,30 +154,30 @@ $("#add-user-btn").on("click", function (event) {
     }
   })
   $("#name-input").val("")
-});
+})
 //get snapshot on any value change to check if player 1 or 2 exist to put them on screen as text
 playerRef.on("value", function (childSnapshot) {
-  // console.log(childSnapshot.val().playerOne);
+  // console.log(childSnapshot.val().playerOne)
   if (childSnapshot.child("playerOne").exists()) {
-    var playerOneName = childSnapshot.val().playerOne;
+    var playerOneName = childSnapshot.val().playerOne
     $("#player-1-name").text(playerOneName)
   }
   if (childSnapshot.child("playerTwo").exists()) {
-    var playerTwoName = childSnapshot.val().playerTwo;
+    var playerTwoName = childSnapshot.val().playerTwo
     $("#player-2-name").text(playerTwoName)
   }
   //changing turn variables
   if (childSnapshot.val().turnOne === true) {
     turn2 = false
-    playerTwoTurnText.text("");
-    playerOneTurnText.text("Your Turn");
+    playerTwoTurnText.text("")
+    playerOneTurnText.text("Your Turn")
   }
   if (childSnapshot.val().turnOne === false) {
     turn2 = true
-    playerOneTurnText.text("");
-    playerTwoTurnText.text("Your Turn");
+    playerOneTurnText.text("")
+    playerTwoTurnText.text("Your Turn")
   }
-});
+})
 // and other changes to player choices
 choicesRef.on("value", function (childSnapshot) {
 
@@ -240,7 +240,7 @@ choicesRef.on("value", function (childSnapshot) {
   else {
     return
   }
-});
+})
 $(".image1").on("click", function () {
 
   if (!gameReady) {
@@ -289,10 +289,6 @@ $(".image2").on("click", function () {
   }
 
   else {
-    // playerRef.update({
-    //   turnOne: true
-    // })
-
     if (this.id === "player-2-rock") {
       choicesRef.update({
         playerTwoChoice: "rock"
@@ -313,8 +309,3 @@ $(".image2").on("click", function () {
     })
   }
 })
- // didn't use below error console:
- //show any errors in console
- // }, function(errorObject) {
- //  console.log("Errors handled: " + errorObject.code);
- // });

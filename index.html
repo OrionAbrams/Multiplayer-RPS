@@ -20,20 +20,21 @@
   <div class="container">
 
     <div class="jumbotron">
-      <h1 class="text-center">Rock, Paper, Scissors. Multiplayer! (or play with yourself)</h1>
+      <h1 class="text-center">Rock, Paper, Scissors. Multiplayer!</h1>
     </div>
 
     <div class="row">
-
+      <div class="col-md-4"></div>
       <div class="col-md-4 card top-form">
         <form>
           <div class="form-group">
-            <label for="user-name-input" class="card-header">Enter Your Name (must enter something)</label>
-            <input class="form-control" id="name-input" placeholder="Bob?" type="text">
+            <label for="user-name-input" class="card-header">Enter Your Name to Play</label>
+            <input class="form-control" id="name-input" type="text">
           </div>
           <button class="btn btn-primary float-right" id="add-user-btn">Submit</button>
         </form>
       </div>
+      <div class="col-md-4"></div>
     </div>
     <div class="row">
       <div class="col-md-4">
@@ -51,10 +52,11 @@
       <div class="col-md-4">
         <div class="card mb-4">
           <div class="card-header scores">WHO WON?</div>
-          <div class="scores">Player 1 score:
-            <div class="p1-score"></div>Player 2 score:
-            <div class="p2-score"></div>
-
+          <div class="scores">&nbsp; Player 1 score:
+            <div class="p1-score d-inline"></div>
+            <div class="p2-score-container">Player 2 score:
+              <div class="p2-score d-inline"></div>
+            </div>
           </div>
 
           <div id="results" class="card-body">

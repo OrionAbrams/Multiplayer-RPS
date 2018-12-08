@@ -41,3 +41,14 @@ body  {
 #player-2-turn{
   font-size: large
 }
+
+.p1-score{
+font-weight: bold
+}
+
+.p2-score{
+  font-weight: bold
+}
+.p2-score-container{
+  padding-left:10px;
+}
