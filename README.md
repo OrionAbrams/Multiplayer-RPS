@@ -6,4 +6,4 @@ It was a homework for Berekeley Extension Bootcamp that I ended up enjoying quit
 
 # Code Example
 
-![Essential RPS Code](/images/rps-main-code.png?raw=true "Essential RPS code")
+![Essential RPS Code](/assets/images/rps-main-code.png?raw=true "Essential RPS code")
