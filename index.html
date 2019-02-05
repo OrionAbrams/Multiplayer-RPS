@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>ROCK PAPA SCISSORZ BAYBEE</title>
+  <title>Rock, Paper, Scissors</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -17,78 +17,79 @@
 
 <body>
 
-  <div class="container">
+  <div className="container">
 
-    <div class="jumbotron">
-      <h1 class="text-center">Rock, Paper, Scissors. Multiplayer!</h1>
+    <div className="jumbotron">
+      <h1 className="text-center">Rock, Paper, Scissors. Multiplayer!</h1>
     </div>
 
-    <div class="row">
-      <div class="col-md-4"></div>
-      <div class="col-md-4 card top-form">
+    <div className="row">
+      <div className="col-md-4"></div>
+      <div className="col-md-4 card top-form">
         <form>
-          <div class="form-group">
-            <label for="user-name-input" class="card-header">Player 1 and 2, Enter Your Names to Play</label>
-            <input class="form-control" id="name-input" type="text">
+          <div className="form-group">
+            <label for="user-name-input" className="card-header">Player 1 and 2, Enter Your Names to Play</label>
+            <input className="form-control" id="name-input" type="text">
           </div>
-          <button class="btn btn-primary float-right" id="add-user-btn">Submit</button>
+          <button className="btn btn-primary float-right" id="add-user-btn">Submit</button>
         </form>
       </div>
-      <div class="col-md-4"></div>
+      <div className="col-md-4"></div>
     </div>
-    <div class="row">
-      <div class="col-md-4">
-        <div class="card mb-4">
-          <div class="card-header">Player 1: &nbsp;<div id="player-1-name" class="d-inline"></div>
-            <div id="player-1-turn" class="active-player"></div>
+    <div className="row">
+      <div className="col-md-4">
+        <div className="card mb-4">
+          <div className="card-header">Player 1: &nbsp;<div id="player-1-name" className="d-inline"></div>
+            <div id="player-1-turn" className="active-player"></div>
           </div>
-          <div class="card-body">
-            <img id="player-1-rock" class="image1" src="assets/images/rock.png">
-            <img id="player-1-paper" class="image1" src="assets/images/paper.png">
-            <img id="player-1-scissors" class="image1" src="assets/images/scissors.png">
+          <div className="card-body">
+            <img id="player-1-rock" className="image1" src="assets/images/rock.png">
+            <img id="player-1-paper" className="image1" src="assets/images/paper.png">
+            <img id="player-1-scissors" className="image1" src="assets/images/scissors.png">
           </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="card mb-4">
-          <div class="card-header scores">WHO WON?</div>
-          <div class="scores">&nbsp; Player 1 score:
-            <div class="p1-score d-inline"></div>
-            <div class="p2-score-container">Player 2 score:
-              <div class="p2-score d-inline"></div>
+      <div className="col-md-4">
+        <div className="card mb-4">
+          <div className="card-header scores">WHO WON?</div>
+          <div className="scores">&nbsp; Player 1 score:
+            <div className="p1-score d-inline"></div>
+            <div className="p2-score-container">Player 2 score:
+              <div className="p2-score d-inline"></div>
             </div>
           </div>
 
-          <div id="results" class="card-body">
+          <div id="results" className="card-body">
           </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="card mb-4">
-          <div class="card-header">Player 2: &nbsp;<div id="player-2-name" class="d-inline"></div>
-            <div id="player-2-turn" class="active-player"></div>
+      <div className="col-md-4">
+        <div className="card mb-4">
+          <div className="card-header">Player 2: &nbsp;<div id="player-2-name" className="d-inline"></div>
+            <div id="player-2-turn" className="active-player"></div>
           </div>
-          <div class="card-body">
-            <img id="player-2-rock" class="image2" src="assets/images/rock.png">
-            <img id="player-2-paper" class="image2" src="assets/images/paper.png">
-            <img id="player-2-scissors" class="image2" src="assets/images/scissors.png">
+          <div className="card-body">
+            <img id="player-2-rock" className="image2" src="assets/images/rock.png">
+            <img id="player-2-paper" className="image2" src="assets/images/paper.png">
+            <img id="player-2-scissors" className="image2" src="assets/images/scissors.png">
           </div>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-4"></div>
+    <div className="row">
+      <div className="col-md-4"></div>
 
-      <div class="col-md-4 bottom">
-        <div class="card mb-4">
-          <div class="card-header">Connected Viewers: &nbsp; <div id="connected-viewers" class="d-inline"></div>
+      <div className="col-md-4 bottom">
+        <div className="card mb-4">
+          <div className="card-header">Connected Viewers: &nbsp; <div id="connected-viewers" className="d-inline"></div>
           </div>
-          <div class="card-body">
-            <button id="reset" class="btn btn-block btn-danger">Reset Game?</button>
+          <div className="card-body">
+            <button id="reset" className="btn btn-block btn-danger">Reset Game?</button>
           </div>
         </div>
       </div>
-      <div class="col-md-4"></div>
+      <div className="col-md-4"></div>
+      <div className="card col-md-4">HEY</div>
 
       <script src="assets/javascript/game.js"></script>
 
